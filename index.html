@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For My Love ❤️</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', cursive;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        color: #fff;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .container { padding: 60px 20px; }
+
+    h1 { font-size: 3rem; margin-bottom: 10px; }
+    h2 { font-weight: normal; margin-bottom: 40px; }
+
+    .card {
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 550px;
+        margin: auto;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .btn {
+        border: none;
+        padding: 12px 28px;
+        font-size: 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        margin: 20px 10px;
+        transition: transform 0.2s, background 0.3s;
+        position: relative;
+    }
+
+    .yes { background: #ff4b5c; color: white; }
+    .yes:hover { background: #ff1e40; transform: scale(1.08); }
+
+    .no { background: #ffffffcc; color: #ff4b5c; position: absolute; }
+
+    #result { display:none; font-size:1.5rem; margin-top:25px; }
+
+    .heart { position: fixed; top: -10px; color: red; animation: fall linear forwards; }
+    @keyframes fall { to { transform: translateY(110vh);} }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Hi My Love 💖</h1>
+    <h2>I have a question for you...</h2>
+
+    <div class="card" id="card">
+        <p style="font-size:1.4rem">Will you come out with me today Darielaaaaaaaaaa? 😊</p>
+
+        <button class="btn yes" onclick="sayYes()">Yes ❤️</button>
+        <button class="btn no" id="noBtn">No 🙈</button>
+
+        <div id="result">Yayyyyy!!! I knew you'd say YES 😍💞</div>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById('noBtn');
+const card = document.getElementById('card');
+
+function moveButton(){
+    const cardRect = card.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+
+    const padding = 20;
+    const maxX = cardRect.width - btnRect.width - padding;
+    const maxY = cardRect.height - btnRect.height - padding;
+
+    const randX = Math.random()*maxX;
+    const randY = Math.random()*maxY;
+
+    noBtn.style.left = randX + 'px';
+    noBtn.style.top = randY + 'px';
+}
+
+// desktop mouse chase
+noBtn.addEventListener('mouseover', moveButton);
+
+// mobile touch escape
+noBtn.addEventListener('touchstart', (e)=>{
+    e.preventDefault();
+    moveButton();
+});
+
+// make it smarter: if cursor gets close -> run away
+window.addEventListener('mousemove', e=>{
+    const rect = noBtn.getBoundingClientRect();
+    const dist = Math.hypot(e.clientX-(rect.left+rect.width/2), e.clientY-(rect.top+rect.height/2));
+    if(dist < 120) moveButton();
+});
+
+function sayYes(){
+    document.getElementById('result').style.display='block';
+    for(let i=0;i<40;i++) createHeart();
+}
+
+function createHeart(){
+    const heart=document.createElement('div');
+    heart.className='heart';
+    heart.innerHTML='❤';
+    heart.style.left=Math.random()*100+'vw';
+    heart.style.animationDuration=(Math.random()*3+2)+'s';
+    heart.style.fontSize=(Math.random()*20+10)+'px';
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+}
+</script>
+
+</body>
+</html>
